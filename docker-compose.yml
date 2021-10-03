@@ -33,15 +33,7 @@ services:
       - db_network
     environment:
       - HOST_DB=db
-      - CARNET=201700324   
-  server3:
-    build: ./Server3
-    restart: always
-    ports:
-      - "5006"
-    networks:
-      - service_network
-      - db_network
+      - CARNET=201700324
   nginx:
     image: nginx:latest
     volumes:
