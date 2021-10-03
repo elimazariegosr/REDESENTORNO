@@ -1,4 +1,4 @@
-version: '2.0'
+version: "2.4"
 services:
   db:
     image: mysql
@@ -10,43 +10,50 @@ services:
       - "3306:3306"
     networks:
       - db_network
-  serverp1:
-    container_name: server1
+  server1:
     build: ./server1
+    container_name: eli
     restart: always
     ports:
       - "3001"
     networks:
-      - db_network
       - service_network
-    enviorments:
-      - HOST_DB=db
-      - CARNET=201709426
-  serverp2:
-    container_name: server2
-    build: ./server1
-    restart: always
-    ports:
-      - "3001"
-    networks:
-      - db_network
-      - service_network
-    enviorments:
+      - db_network 
+    environment:
       - HOST_DB=db
       - CARNET=201700324
-  balanceador:
-    container_name: balanceadorp2
-    image: nginx
+  server2:
+    build: ./server1
+    container_name: diana
+    restart: always
+    ports:
+      - "3001"
+    networks:
+      - service_network
+      - db_network
+    environment:
+      - HOST_DB=db
+      - CARNET=201700324   
+  server3:
+    build: ./Server3
+    restart: always
+    ports:
+      - "5006"
+    networks:
+      - service_network
+      - db_network
+  nginx:
+    image: nginx:latest
     volumes:
-      - ./balancer/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - server1
       - server2
     ports:
-      - "5000:5000"
+      - "5000"
     networks:
-      - service_network      
-    
+      - service_network
+       
 networks:
   service_network:
     driver: bridge
@@ -61,4 +68,4 @@ networks:
       driver: default
       config:
         - subnet: 10.10.11.0/24
-          gateway: 10.10.11.1       
+          gateway: 10.10.11.1
