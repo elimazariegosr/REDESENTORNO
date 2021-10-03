@@ -10,6 +10,8 @@ services:
       - "3306:3306"
     networks:
       - db_network
+    volumes:
+      - ./db/volumen:/var/lib/mysql  
   web:
     build: ./frontend
     stdin_open: true
@@ -19,8 +21,10 @@ services:
     environment:
       - HOST_HOST_BALANCER=http://52.15.117.25:5001    
     volumes:
-        - "/app/node_modules"
-        - "./frontend:/app"    
+      - "/app/node_modules"
+      - "./frontend:/app"
+    networks:
+      - frontend_network
   server1:
     build: ./server1
     container_name: eli

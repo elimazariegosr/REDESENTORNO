@@ -1,0 +1,22 @@
+CREATE DATABASE db_redes;
+
+USE db_redes;
+
+CREATE TABLE REPORTE(
+    id_reporte INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    carnet  VARCHAR(10) NOT NULL,
+    nombre  VARCHAR(50) NOT NULL,
+    curso   VARCHAR(20) NOT NULL,
+    cuerpo  VARCHAR(250) NOT NULL,
+    procesado_por VARCHAR(10) NOT NULL,
+    obtenido_por VARCHAR(10) NOT NULL,
+    fecha   VARCHAR(10) NOT NULL
+);
+
+ALTER TABLE REPORTE ALTER COLUMN obtenido_por SET DEFAULT '201700324';
+
+DESCRIBE REPORTE;
+
+SELECT * FROM REPORTE;
+
+-- mysql -h db -u root -p
