@@ -17,10 +17,10 @@ services:
     ports:
         - "5000:5000"
     environment:
-      - HOST_HOST_BALANCER=http://52.15.117.25:5000    
+      - HOST_HOST_BALANCER=http://52.15.117.25:5001    
     volumes:
         - "/app/node_modules"
-        - ".:/app"    
+        - "./frontend:/app"    
   server1:
     build: ./server1
     container_name: eli
