@@ -2,7 +2,7 @@ import axios from "axios";
   
 export default axios.create({
 
-  baseURL: process.env.HOST_BALANCER,
+  baseURL:'http://52.15.117.25:5001',
   headers: {
     "Content-type": "application/json"
   }

@@ -2,6 +2,7 @@ import http from "../http-common";
 
 class reporteDataService {
   getAll() {
+    console.log(http)
     return http.get("/getReports");
   }
 
