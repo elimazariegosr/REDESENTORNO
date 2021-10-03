@@ -10,6 +10,17 @@ services:
       - "3306:3306"
     networks:
       - db_network
+  web:
+    build: ./frontend
+    stdin_open: true
+    tty: true
+    ports:
+        - "5000:5000"
+    environment:
+      - HOST_HOST_BALANCER=http://52.15.117.25:5000    
+    volumes:
+        - "/app/node_modules"
+        - ".:/app"    
   server1:
     build: ./server1
     container_name: eli
@@ -21,10 +32,10 @@ services:
       - db_network 
     environment:
       - HOST_DB=db
-      - CARNET=201700324
+      - CARNET=201709426
   server2:
     build: ./server1
-    container_name: diana
+    container_name: alison
     restart: always
     ports:
       - "3001"
@@ -33,7 +44,19 @@ services:
       - db_network
     environment:
       - HOST_DB=db
-      - CARNET=201700324
+      - CARNET=201700
+  server3:
+    build: ./server1
+    container_name: juan
+    restart: always
+    ports:
+      - "3001"
+    networks:
+      - service_network
+      - db_network
+    environment:
+      - HOST_DB=db
+      - CARNET=201700556      
   nginx:
     image: nginx:latest
     volumes:
@@ -41,8 +64,9 @@ services:
     depends_on:
       - server1
       - server2
+      - server3
     ports:
-      - "5000"
+      - "5001:5001"
     networks:
       - service_network
        
@@ -61,3 +85,10 @@ networks:
       config:
         - subnet: 10.10.11.0/24
           gateway: 10.10.11.1
+  frontend_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.51.0/24
+          gateway: 192.168.51.1          
